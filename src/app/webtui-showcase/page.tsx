@@ -148,12 +148,12 @@ export default function WebTUIShowcase() {
                                     }}
                                     onMouseEnter={(e) => {
                                         if (activeTab !== tab.id) {
-                                            e.target.style.backgroundColor = 'var(--background2)'
+                                            (e.target as HTMLElement).style.backgroundColor = 'var(--background2)'
                                         }
                                     }}
                                     onMouseLeave={(e) => {
                                         if (activeTab !== tab.id) {
-                                            e.target.style.backgroundColor = 'transparent'
+                                            (e.target as HTMLElement).style.backgroundColor = 'transparent'
                                         }
                                     }}
                                 >
@@ -619,7 +619,7 @@ function sendEmail(recipient, subject, body) {
                                             min="12"
                                             max="24"
                                             value={rangeValue}
-                                            onChange={(e) => setRangeValue(e.target.value)}
+                                            onChange={(e) => setRangeValue(Number(e.target.value))}
                                             style={{ width: '100%' }}
                                         />
                                     </div>
@@ -764,8 +764,8 @@ function sendEmail(recipient, subject, body) {
                                 {/* Dialog */}
                                 <div style={{ marginBottom: '1.5rem', padding: '1rem', border: '1px solid var(--foreground2)' }}>
                                     <h3 style={{ fontWeight: 'bold', marginBottom: '1rem' }}>Dialog</h3>
-                                    <button popovertarget="demo-dialog">Open Dialog</button>
-                                    <dialog id="demo-dialog" popover style={{ padding: '1rem', backgroundColor: 'var(--background1)', border: '1px solid var(--foreground2)' }}>
+                                    <button popoverTarget="demo-dialog">Open Dialog</button>
+                                    <dialog id="demo-dialog" popover="auto" style={{ padding: '1rem', backgroundColor: 'var(--background1)', border: '1px solid var(--foreground2)' }}>
                                         <div>
                                             <h4 style={{ marginBottom: '1rem' }}>Confirm Delete</h4>
                                             <p style={{ marginBottom: '1rem' }}>Are you sure you want to delete this email?</p>

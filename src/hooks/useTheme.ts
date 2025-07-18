@@ -19,7 +19,7 @@ export interface ThemeContextType {
   error: string | null
 }
 
-export interface UseThemeReturn extends ThemeContextType {
+interface UseThemeReturn extends ThemeContextType {
   // Additional utility functions
   getCurrentThemeConfig: () => ThemeConfig | undefined
   getThemesByCategory: (category: 'light' | 'dark') => ThemeConfig[]

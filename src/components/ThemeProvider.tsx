@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 
 // TypeScript interfaces for theme configuration
-export interface ThemeConfig {
+interface ThemeConfig {
   id: string
   name: string
   description: string
@@ -11,7 +11,7 @@ export interface ThemeConfig {
   category: 'light' | 'dark' | 'auto'
 }
 
-export interface ThemeContextType {
+interface ThemeContextType {
   currentTheme: string
   availableThemes: ThemeConfig[]
   setTheme: (themeId: string) => void

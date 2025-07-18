@@ -42,8 +42,8 @@ export default function RootLayout({
   return (
     <html lang="en" data-webtui-theme={DEFAULT_THEME} className="dark">
       <head>
-        <meta name="theme-color" content={viewport.themeColor} />
-        <meta name="color-scheme" content={viewport.colorScheme} />
+        <meta name="theme-color" content={viewport.themeColor as string} />
+        <meta name="color-scheme" content={viewport.colorScheme as string} />
         {/* Load critical fonts */}
         <link
           rel="preconnect"
