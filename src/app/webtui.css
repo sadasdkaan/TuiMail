@@ -21,8 +21,4 @@
 @import "@webtui/css/utils/box.css";
 
 /* WebTUI Themes - Load after base components */
-@import "@webtui/theme-catppuccin";
-@import "@webtui/theme-everforest";
-@import "@webtui/theme-gruvbox";
-@import "@webtui/theme-nord";
-@import "@webtui/theme-vitesse";
+/* Note: Individual theme packages may not be available, using base themes */
