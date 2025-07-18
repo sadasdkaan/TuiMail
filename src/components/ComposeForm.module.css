@@ -1,0 +1,321 @@
+/* ComposeForm terminal-specific styling */
+
+.composeForm {
+  background-color: var(--terminal-bg);
+  border: var(--terminal-border-width) solid var(--terminal-border);
+  border-radius: var(--terminal-border-radius);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.composeHeader {
+  background-color: var(--terminal-hover);
+  border-bottom: var(--terminal-border-width) solid var(--terminal-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.composeHeader h2 {
+  font-family: inherit;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.formField {
+  position: relative;
+}
+
+.formField label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+  color: var(--terminal-accent);
+}
+
+.formField input,
+.formField textarea {
+  width: 100%;
+  background-color: var(--terminal-bg);
+  border: var(--terminal-border-width) solid var(--terminal-border);
+  color: var(--terminal-fg);
+  font-family: inherit;
+  font-size: inherit;
+  padding: var(--terminal-padding);
+  border-radius: var(--terminal-border-radius);
+  transition: border-color var(--terminal-transition);
+  resize: vertical;
+}
+
+.formField input:focus,
+.formField textarea:focus {
+  border-color: var(--terminal-accent);
+  outline: none;
+  box-shadow: 0 0 0 1px var(--terminal-accent);
+}
+
+.formField input::placeholder,
+.formField textarea::placeholder {
+  color: var(--terminal-dim);
+  opacity: 0.8;
+}
+
+/* Error state styling */
+.formField input[aria-invalid="true"],
+.formField textarea[aria-invalid="true"] {
+  border-color: var(--terminal-error);
+}
+
+.formField input[aria-invalid="true"]:focus,
+.formField textarea[aria-invalid="true"]:focus {
+  border-color: var(--terminal-error);
+  box-shadow: 0 0 0 1px var(--terminal-error);
+}
+
+.errorMessage {
+  color: var(--terminal-error);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.errorMessage::before {
+  content: '▶';
+  font-weight: bold;
+}
+
+/* Action buttons styling */
+.formActions {
+  background-color: var(--terminal-hover);
+  border-top: var(--terminal-border-width) solid var(--terminal-border);
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+.actionButton {
+  background-color: transparent;
+  border: var(--terminal-border-width) solid var(--terminal-fg);
+  color: var(--terminal-fg);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all var(--terminal-transition);
+  border-radius: var(--terminal-border-radius);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.actionButton:hover:not(:disabled) {
+  background-color: var(--terminal-hover);
+  transform: translateY(-1px);
+}
+
+.actionButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button variants */
+.sendButton {
+  border-color: var(--terminal-success);
+  color: var(--terminal-success);
+}
+
+.sendButton:hover:not(:disabled) {
+  background-color: var(--terminal-success);
+  color: var(--terminal-bg);
+}
+
+.draftButton {
+  border-color: var(--terminal-info);
+  color: var(--terminal-info);
+}
+
+.draftButton:hover:not(:disabled) {
+  background-color: var(--terminal-info);
+  color: var(--terminal-bg);
+}
+
+.cancelButton {
+  border-color: var(--terminal-error);
+  color: var(--terminal-error);
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: var(--terminal-error);
+  color: var(--terminal-bg);
+}
+
+/* CC/BCC toggle button */
+.ccBccToggle {
+  background: none;
+  border: none;
+  color: var(--terminal-info);
+  font-family: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  transition: color var(--terminal-transition);
+}
+
+.ccBccToggle:hover {
+  color: var(--terminal-accent);
+}
+
+/* Character counter */
+.characterCount {
+  color: var(--terminal-dim);
+  font-size: 0.75rem;
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+/* Keyboard shortcuts hint */
+.keyboardHints {
+  color: var(--terminal-dim);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.keyboardHints kbd {
+  background-color: var(--terminal-border);
+  color: var(--terminal-fg);
+  padding: 0.125rem 0.25rem;
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 0.75rem;
+  border: 1px solid var(--terminal-dim);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .composeForm {
+    margin: 0;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+
+  .formActions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .actionButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .keyboardHints {
+    display: none;
+  }
+}
+
+/* Focus management for accessibility */
+.composeForm:focus-within .formField label {
+  color: var(--terminal-accent);
+}
+
+/* Animation for form appearance */
+.composeForm {
+  animation: terminal-fade-in 0.3s ease-in-out;
+}
+
+/* Terminal-style form borders */
+.formBorder {
+  border: var(--terminal-border-width) solid var(--terminal-border);
+  border-radius: var(--terminal-border-radius);
+  position: relative;
+}
+
+.formBorder::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 1px solid var(--terminal-dim);
+  border-radius: var(--terminal-border-radius);
+  opacity: 0;
+  transition: opacity var(--terminal-transition);
+}
+
+.formBorder:focus-within::before {
+  opacity: 1;
+}
+
+/* Loading state for send button */
+.sendButton:disabled {
+  position: relative;
+  overflow: hidden;
+}
+
+.sendButton:disabled::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--terminal-success),
+    transparent
+  );
+  animation: loading-sweep 1.5s infinite;
+}
+
+@keyframes loading-sweep {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .formField input,
+  .formField textarea {
+    border-width: 2px;
+  }
+
+  .actionButton {
+    border-width: 2px;
+    font-weight: bold;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .composeForm {
+    animation: none;
+  }
+
+  .sendButton:disabled::after {
+    animation: none;
+  }
+
+  .actionButton:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .actionButton:active:not(:disabled) {
+    transform: none;
+  }
+}

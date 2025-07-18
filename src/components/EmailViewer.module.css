@@ -1,0 +1,374 @@
+/* EmailViewer Component Styles */
+/* Terminal-style email viewer with WebTUI integration */
+
+.email-viewer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--webtui-color-bg, #000);
+  color: var(--webtui-color-fg, #00ff00);
+  font-family: var(--webtui-font-family, 'Fira Code', 'Consolas', 'Monaco', monospace);
+  font-size: var(--webtui-font-size, 14px);
+  line-height: var(--webtui-line-height, 1.4);
+  border: 1px solid var(--webtui-color-border, #333);
+}
+
+/* Empty state when no email is selected */
+.email-viewer--empty {
+  justify-content: center;
+  align-items: center;
+}
+
+.email-viewer__empty-state {
+  text-align: center;
+  padding: 2rem;
+}
+
+.ascii-art {
+  color: var(--webtui-color-accent, #ffff00);
+  font-size: 8px;
+  line-height: 1;
+  margin-bottom: 1rem;
+  white-space: pre;
+}
+
+.empty-message {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--webtui-color-fg, #00ff00);
+}
+
+.empty-hint {
+  color: var(--webtui-color-muted, #808080);
+  font-size: 14px;
+}
+
+/* Navigation controls */
+.email-viewer__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--webtui-color-border, #333);
+  background: rgba(0, 255, 0, 0.05);
+}
+
+.controls-left,
+.controls-center,
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.controls-center {
+  flex: 1;
+  justify-content: center;
+}
+
+/* Status indicators */
+.email-status {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.status-indicator {
+  font-size: 12px;
+}
+
+.status-indicator--unread {
+  color: var(--webtui-color-accent, #ffff00);
+}
+
+.status-indicator--flagged {
+  color: var(--webtui-color-warning, #ffa500);
+}
+
+.status-indicator--attachment {
+  color: var(--webtui-color-info, #00ffff);
+}
+
+/* Buttons */
+.btn {
+  background: transparent;
+  border: 1px solid var(--webtui-color-border, #333);
+  color: var(--webtui-color-fg, #00ff00);
+  padding: 0.25rem 0.75rem;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover:not(.btn--disabled) {
+  background: var(--webtui-color-selection, #333);
+  border-color: var(--webtui-color-accent, #ffff00);
+}
+
+.btn:focus {
+  outline: 1px solid var(--webtui-color-accent, #ffff00);
+  outline-offset: 1px;
+}
+
+.btn--ghost {
+  border-color: transparent;
+}
+
+.btn--ghost:hover:not(.btn--disabled) {
+  border-color: var(--webtui-color-border, #333);
+}
+
+.btn--small {
+  padding: 0.125rem 0.5rem;
+  font-size: 11px;
+}
+
+.btn--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Email header */
+.email-viewer__header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--webtui-color-border, #333);
+  background: rgba(0, 255, 0, 0.02);
+}
+
+/* Email actions */
+.email-viewer__actions {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--webtui-color-border, #333);
+  background: rgba(0, 255, 0, 0.03);
+}
+
+.email-actions {
+  justify-content: center;
+}
+
+.header-separator {
+  color: var(--webtui-color-border, #333);
+  font-size: 10px;
+  line-height: 1;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.header-fields {
+  margin: 1rem 0;
+}
+
+.header-field {
+  display: flex;
+  margin-bottom: 0.5rem;
+  align-items: flex-start;
+}
+
+.field-label {
+  min-width: 100px;
+  font-weight: bold;
+  color: var(--webtui-color-accent, #ffff00);
+  flex-shrink: 0;
+}
+
+.field-value {
+  flex: 1;
+  word-break: break-word;
+  padding-left: 0.5rem;
+}
+
+.field-value--subject {
+  font-weight: bold;
+  color: var(--webtui-color-fg, #00ff00);
+}
+
+.attachment-item {
+  color: var(--webtui-color-info, #00ffff);
+}
+
+/* Email body */
+.email-viewer__body {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background: var(--webtui-color-bg, #000);
+}
+
+.email-content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: var(--webtui-color-fg, #00ff00);
+  margin: 0;
+  max-width: 100%;
+}
+
+/* Footer */
+.email-viewer__footer {
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--webtui-color-border, #333);
+  background: rgba(0, 255, 0, 0.05);
+}
+
+.footer-separator {
+  color: var(--webtui-color-border, #333);
+  font-size: 10px;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.keyboard-shortcuts {
+  text-align: center;
+}
+
+.shortcut-hint {
+  font-size: 11px;
+  color: var(--webtui-color-muted, #808080);
+}
+
+.shortcut-hint kbd {
+  background: var(--webtui-color-selection, #333);
+  border: 1px solid var(--webtui-color-border, #333);
+  border-radius: 2px;
+  padding: 0.125rem 0.25rem;
+  font-size: 10px;
+  font-family: inherit;
+  color: var(--webtui-color-accent, #ffff00);
+  margin: 0 0.125rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .email-viewer__controls {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+  
+  .controls-left,
+  .controls-center,
+  .controls-right {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .header-field {
+    flex-direction: column;
+    margin-bottom: 0.75rem;
+  }
+  
+  .field-label {
+    min-width: auto;
+    margin-bottom: 0.25rem;
+  }
+  
+  .field-value {
+    padding-left: 0;
+  }
+  
+  .email-viewer__header {
+    padding: 0.75rem;
+  }
+  
+  .email-viewer__body {
+    padding: 0.75rem;
+  }
+  
+  .shortcut-hint {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ascii-art {
+    font-size: 6px;
+  }
+  
+  .email-viewer__controls {
+    padding: 0.5rem;
+  }
+  
+  .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 11px;
+  }
+  
+  .btn--small {
+    padding: 0.125rem 0.375rem;
+    font-size: 10px;
+  }
+  
+  .header-separator,
+  .footer-separator {
+    font-size: 8px;
+  }
+}
+
+/* Focus and accessibility */
+.email-viewer:focus-within {
+  outline: 1px solid var(--webtui-color-accent, #ffff00);
+  outline-offset: -1px;
+}
+
+/* Scrollbar styling for terminal theme */
+.email-viewer__body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.email-viewer__body::-webkit-scrollbar-track {
+  background: var(--webtui-color-bg, #000);
+}
+
+.email-viewer__body::-webkit-scrollbar-thumb {
+  background: var(--webtui-color-border, #333);
+  border-radius: 4px;
+}
+
+.email-viewer__body::-webkit-scrollbar-thumb:hover {
+  background: var(--webtui-color-muted, #808080);
+}
+
+/* Animation for smooth transitions */
+.email-viewer {
+  transition: all 0.2s ease;
+}
+
+.email-content {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Print styles */
+@media print {
+  .email-viewer__controls,
+  .email-viewer__footer {
+    display: none;
+  }
+  
+  .email-viewer {
+    border: none;
+    height: auto;
+  }
+  
+  .email-content {
+    color: black;
+    background: white;
+  }
+}

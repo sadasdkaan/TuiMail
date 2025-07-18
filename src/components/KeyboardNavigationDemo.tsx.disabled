@@ -1,0 +1,313 @@
+'use client'
+
+import { useState } from 'react'
+import { useListNavigation } from '@/hooks/useListNavigation'
+import { useGlobalKeyboard } from '@/hooks/useGlobalKeyboard'
+import { KeyboardContextProvider, useKeyboardFocus } from '@/hooks/useKeyboardContext'
+
+interface DemoItem {
+  id: string
+  title: string
+  description: string
+}
+
+const demoItems: DemoItem[] = [
+  { id: '1', title: 'Email 1', description: 'First email in the list' },
+  { id: '2', title: 'Email 2', description: 'Second email in the list' },
+  { id: '3', title: 'Email 3', description: 'Third email in the list' },
+  { id: '4', title: 'Email 4', description: 'Fourth email in the list' },
+  { id: '5', title: 'Email 5', description: 'Fifth email in the list' },
+]
+
+function EmailListDemo() {
+  const [selectedItem, setSelectedItem] = useState<DemoItem | null>(null)
+  const [showCompose, setShowCompose] = useState(false)
+  
+  const { activate, isActive } = useKeyboardFocus('email-list', !showCompose)
+
+  const {
+    selectedIndex,
+    setSelectedIndex,
+    isSelected
+  } = useListNavigation({
+    itemCount: demoItems.length,
+    onSelect: (index) => {
+      setSelectedItem(demoItems[index])
+    },
+    onCancel: () => {
+      setSelectedItem(null)
+    },
+    enabled: isActive
+  })
+
+  // Global keyboard shortcuts
+  useGlobalKeyboard({
+    'ctrl+n': () => {
+      setShowCompose(true)
+      setSelectedItem(null)
+    },
+    'ctrl+1': () => {
+      setShowCompose(false)
+      activate()
+    },
+    'escape': () => {
+      if (showCompose) {
+        setShowCompose(false)
+        activate()
+      } else {
+        setSelectedItem(null)
+      }
+    }
+  })
+
+  return (
+    <div className="keyboard-nav-demo">
+      <div className="demo-header">
+        <h2>Keyboard Navigation Demo</h2>
+        <div className="shortcuts">
+          <p><strong>Navigation:</strong> ↑↓ or j/k keys</p>
+          <p><strong>Select:</strong> Enter or Space</p>
+          <p><strong>Cancel:</strong> Escape</p>
+          <p><strong>New Email:</strong> Ctrl+N</p>
+          <p><strong>Back to List:</strong> Ctrl+1</p>
+        </div>
+      </div>
+
+      {showCompose ? (
+        <ComposeDemo onClose={() => {
+          setShowCompose(false)
+          activate()
+        }} />
+      ) : (
+        <div className="email-list-container">
+          <div className="email-list" onClick={activate}>
+            <h3>Email List {isActive && '(Active)'}</h3>
+            {demoItems.map((item, index) => (
+              <div
+                key={item.id}
+                className={`email-item ${isSelected(index) ? 'selected' : ''}`}
+                onClick={() => setSelectedIndex(index)}
+              >
+                <div className="email-title">{item.title}</div>
+                <div className="email-description">{item.description}</div>
+              </div>
+            ))}
+          </div>
+
+          {selectedItem && (
+            <div className="email-viewer">
+              <h3>Email Viewer</h3>
+              <div className="email-content">
+                <h4>{selectedItem.title}</h4>
+                <p>{selectedItem.description}</p>
+                <p>This is the full content of the selected email.</p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      <style jsx>{`
+        .keyboard-nav-demo {
+          padding: 20px;
+          font-family: 'Courier New', monospace;
+          background: #000;
+          color: #00ff00;
+          min-height: 100vh;
+        }
+
+        .demo-header {
+          margin-bottom: 20px;
+          border-bottom: 1px solid #00ff00;
+          padding-bottom: 10px;
+        }
+
+        .shortcuts {
+          font-size: 12px;
+          margin-top: 10px;
+        }
+
+        .shortcuts p {
+          margin: 2px 0;
+        }
+
+        .email-list-container {
+          display: flex;
+          gap: 20px;
+        }
+
+        .email-list {
+          flex: 1;
+          border: 1px solid #00ff00;
+          padding: 10px;
+        }
+
+        .email-item {
+          padding: 8px;
+          border: 1px solid transparent;
+          cursor: pointer;
+          margin-bottom: 2px;
+        }
+
+        .email-item:hover {
+          border-color: #00ff00;
+        }
+
+        .email-item.selected {
+          background: #00ff00;
+          color: #000;
+        }
+
+        .email-title {
+          font-weight: bold;
+        }
+
+        .email-description {
+          font-size: 12px;
+          opacity: 0.8;
+        }
+
+        .email-viewer {
+          flex: 1;
+          border: 1px solid #00ff00;
+          padding: 10px;
+        }
+
+        .email-content {
+          margin-top: 10px;
+        }
+
+        .compose-form {
+          border: 1px solid #00ff00;
+          padding: 20px;
+        }
+
+        .form-group {
+          margin-bottom: 10px;
+        }
+
+        .form-group label {
+          display: block;
+          margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+          width: 100%;
+          background: #000;
+          color: #00ff00;
+          border: 1px solid #00ff00;
+          padding: 5px;
+          font-family: inherit;
+        }
+
+        .form-group textarea {
+          height: 200px;
+          resize: vertical;
+        }
+
+        .form-actions {
+          margin-top: 20px;
+        }
+
+        .form-actions button {
+          background: #000;
+          color: #00ff00;
+          border: 1px solid #00ff00;
+          padding: 8px 16px;
+          margin-right: 10px;
+          cursor: pointer;
+          font-family: inherit;
+        }
+
+        .form-actions button:hover {
+          background: #00ff00;
+          color: #000;
+        }
+      `}</style>
+    </div>
+  )
+}
+
+function ComposeDemo({ onClose }: { onClose: () => void }) {
+  const [formData, setFormData] = useState({
+    to: '',
+    subject: '',
+    body: ''
+  })
+
+  const { activate, isActive } = useKeyboardFocus('compose-form', true)
+
+  useGlobalKeyboard({
+    'ctrl+enter': () => {
+      alert('Email sent! (Demo)')
+      onClose()
+    },
+    'ctrl+s': () => {
+      alert('Draft saved! (Demo)')
+    }
+  })
+
+  return (
+    <div className="compose-form" onClick={activate}>
+      <h3>Compose Email {isActive && '(Active)'}</h3>
+      <div className="form-group">
+        <label>To:</label>
+        <input
+          type="email"
+          value={formData.to}
+          onChange={(e) => setFormData({ ...formData, to: e.target.value })}
+        />
+      </div>
+      <div className="form-group">
+        <label>Subject:</label>
+        <input
+          type="text"
+          value={formData.subject}
+          onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+        />
+      </div>
+      <div className="form-group">
+        <label>Message:</label>
+        <textarea
+          value={formData.body}
+          onChange={(e) => setFormData({ ...formData, body: e.target.value })}
+        />
+      </div>
+      <div className="form-actions">
+        <button onClick={() => {
+          alert('Email sent! (Demo)')
+          onClose()
+        }}>
+          Send (Ctrl+Enter)
+        </button>
+        <button onClick={() => alert('Draft saved! (Demo)')}>
+          Save Draft (Ctrl+S)
+        </button>
+        <button onClick={onClose}>
+          Cancel (Escape)
+        </button>
+      </div>
+      <div className="shortcuts">
+        <p><strong>Send:</strong> Ctrl+Enter</p>
+        <p><strong>Save Draft:</strong> Ctrl+S</p>
+        <p><strong>Cancel:</strong> Escape</p>
+      </div>
+    </div>
+  )
+}
+
+export default function KeyboardNavigationDemo() {
+  return (
+    <div className="terminal-container">
+      <div className="terminal-border p-4">
+        <h2 className="terminal-accent font-bold text-lg mb-4">
+          ┌─ KEYBOARD NAVIGATION DEMO ─┐
+        </h2>
+        <p className="terminal-dim">
+          Keyboard navigation demo temporarily disabled due to context provider issues.
+        </p>
+      </div>
+    </div>
+  )
+}

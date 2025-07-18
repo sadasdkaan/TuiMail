@@ -1,0 +1,1072 @@
+/* Terminal Email Client Global Styles */
+
+/* WebTUI CSS Layer System - Terminal Theme Layer */
+@layer webtui.terminal-theme {
+
+  /* Terminal color scheme with proper contrast ratios - fallback for when WebTUI themes aren't loaded */
+  :root:not([data-webtui-theme]) {
+    /* Primary terminal colors - WCAG AA compliant contrast ratios */
+    --terminal-bg: #000000;
+    /* Pure black background */
+    --terminal-fg: #00ff41;
+    /* Bright green text (7.53:1 contrast) */
+    --terminal-accent: #ffff00;
+    /* Yellow accent (19.56:1 contrast) */
+    --terminal-dim: #00aa00;
+    /* Dimmed green (4.59:1 contrast) */
+    --terminal-bright: #00ff88;
+    /* Bright green variant (8.85:1 contrast) */
+    --terminal-error: #ff4444;
+    /* Red error (5.73:1 contrast) */
+    --terminal-warning: #ffaa00;
+    /* Orange warning (11.79:1 contrast) */
+    --terminal-info: #44aaff;
+    /* Blue info (6.04:1 contrast) */
+    --terminal-success: #44ff44;
+    /* Green success (8.25:1 contrast) */
+
+    /* Secondary colors for UI elements */
+    --terminal-border: #333333;
+    /* Dark gray borders */
+    --terminal-hover: #111111;
+    /* Subtle hover background */
+    --terminal-selection: #004400;
+    /* Selection background */
+    --terminal-focus: #ffff00;
+    /* Focus indicator */
+
+    /* Map to WebTUI variables for compatibility */
+    --background0: var(--terminal-bg);
+    --background1: var(--terminal-hover);
+    --background2: #222222;
+    --background3: #333333;
+    --foreground0: var(--terminal-fg);
+    --foreground1: var(--terminal-dim);
+    --foreground2: var(--terminal-border);
+  }
+
+  /* Terminal spacing and sizing */
+  :root {
+    --terminal-padding: 0.5rem;
+    --terminal-margin: 0.25rem;
+    --terminal-border-width: 1px;
+    --terminal-border-radius: 0;
+    /* Sharp corners for terminal aesthetic */
+    --terminal-font-size: 14px;
+    --terminal-line-height: 1.4;
+
+    /* Terminal animation timing */
+    --terminal-transition: 0.15s ease-in-out;
+    --terminal-blink-speed: 1s;
+  }
+
+  /* Dark theme specific overrides */
+  .dark {
+    color-scheme: dark;
+  }
+
+  /* Adaptive text colors for light themes */
+  .theme-light {
+    color-scheme: light;
+
+    /* Override terminal colors for light themes with high contrast */
+    --terminal-fg: #1a1a1a !important;
+    --terminal-dim: #666666 !important;
+    --terminal-accent: #0066cc !important;
+    --terminal-success: #006600 !important;
+    --terminal-error: #cc0000 !important;
+    --terminal-warning: #b8860b !important;
+    --terminal-info: #0066cc !important;
+    --terminal-border: #d0d0d0 !important;
+    --terminal-hover: #f0f0f0 !important;
+    --terminal-selection: #e6f3ff !important;
+    --terminal-focus: #0066cc !important;
+  }
+
+  /* Adaptive text colors for dark themes */
+  .theme-dark {
+    color-scheme: dark;
+
+    /* Enhanced terminal colors for dark themes with better contrast */
+    --terminal-fg: #e0e0e0 !important;
+    --terminal-dim: #a0a0a0 !important;
+    --terminal-accent: #4fc3f7 !important;
+    --terminal-success: #66bb6a !important;
+    --terminal-error: #ef5350 !important;
+    --terminal-warning: #ffb74d !important;
+    --terminal-info: #42a5f5 !important;
+    --terminal-border: #404040 !important;
+    --terminal-hover: #2a2a2a !important;
+    --terminal-selection: #1e3a5f !important;
+    --terminal-focus: #4fc3f7 !important;
+  }
+
+  /* Ensure WebTUI themes work with adaptive colors */
+  .theme-light[data-webtui-theme] {
+    /* Force readable text on light WebTUI themes */
+    --foreground0: #1a1a1a !important;
+    --foreground1: #4a4a4a !important;
+    --foreground2: #6a6a6a !important;
+  }
+
+  .theme-dark[data-webtui-theme] {
+    /* Ensure readable text on dark WebTUI themes */
+    --foreground0: #e0e0e0 !important;
+    --foreground1: #b0b0b0 !important;
+    --foreground2: #808080 !important;
+  }
+}
+
+/* WebTUI Base Layer - Global terminal styling */
+@layer webtui.base {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  html {
+    font-size: var(--terminal-font-size);
+    line-height: var(--terminal-line-height);
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    background-color: var(--background0, var(--terminal-bg));
+    color: var(--foreground0, var(--terminal-fg));
+    font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: var(--terminal-font-size);
+    line-height: var(--terminal-line-height);
+    font-feature-settings: 'liga' 1, 'calt' 1;
+    font-variant-ligatures: contextual;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Responsive typography */
+  @media (max-width: 768px) {
+    html {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    html {
+      font-size: 11px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    html {
+      font-size: 15px;
+    }
+  }
+}
+
+/* WebTUI Components Layer - Terminal UI Elements */
+@layer webtui.components {
+
+  /* Terminal-style scrollbars */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--terminal-bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--terminal-dim);
+    border-radius: var(--terminal-border-radius);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--terminal-fg);
+  }
+
+  /* Firefox scrollbar styling */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--terminal-dim) var(--terminal-bg);
+  }
+
+  /* Terminal-style selection */
+  ::selection {
+    background-color: var(--terminal-selection);
+    color: var(--terminal-fg);
+  }
+
+  ::-moz-selection {
+    background-color: var(--terminal-selection);
+    color: var(--terminal-fg);
+  }
+
+  /* Terminal-style focus indicators */
+  :focus {
+    outline: var(--terminal-border-width) solid var(--terminal-focus);
+    outline-offset: 2px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: var(--terminal-border-width) solid var(--terminal-focus);
+    outline-offset: 2px;
+  }
+
+  /* Terminal-style links */
+  a {
+    color: var(--terminal-info);
+    text-decoration: underline;
+    transition: color var(--terminal-transition);
+  }
+
+  a:hover,
+  a:focus {
+    color: var(--terminal-accent);
+  }
+
+  a:visited {
+    color: var(--terminal-dim);
+  }
+
+  /* Terminal-style buttons */
+  button {
+    background-color: transparent;
+    border: var(--terminal-border-width) solid var(--terminal-fg);
+    color: var(--terminal-fg) !important;
+    font-family: inherit;
+    font-size: inherit;
+    padding: var(--terminal-padding);
+    cursor: pointer;
+    transition: all var(--terminal-transition);
+    border-radius: var(--terminal-border-radius);
+    min-height: 44px;
+    /* Touch-friendly minimum */
+    font-weight: normal;
+    text-decoration: none;
+  }
+
+  button:hover:not(:disabled) {
+    background-color: var(--terminal-hover);
+    border-color: var(--terminal-accent);
+    color: var(--terminal-accent) !important;
+  }
+
+  button:active:not(:disabled) {
+    background-color: var(--terminal-fg);
+    color: var(--terminal-bg) !important;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: var(--terminal-dim) !important;
+  }
+
+  /* Ensure button text is always visible */
+  button * {
+    color: inherit !important;
+  }
+
+  /* Terminal-style inputs */
+  input,
+  textarea,
+  select {
+    background-color: var(--terminal-bg);
+    border: var(--terminal-border-width) solid var(--terminal-border);
+    color: var(--terminal-fg);
+    font-family: inherit;
+    font-size: inherit;
+    padding: var(--terminal-padding);
+    border-radius: var(--terminal-border-radius);
+    transition: border-color var(--terminal-transition);
+    min-height: 44px;
+    /* Touch-friendly minimum */
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--terminal-accent);
+    outline: none;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--terminal-dim);
+    opacity: 1;
+  }
+
+  /* Terminal-style tables */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    border: var(--terminal-border-width) solid var(--terminal-border);
+  }
+
+  th,
+  td {
+    border: var(--terminal-border-width) solid var(--terminal-border);
+    padding: var(--terminal-padding);
+    text-align: left;
+  }
+
+  th {
+    background-color: var(--terminal-dim);
+    color: var(--terminal-bg);
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: var(--terminal-hover);
+  }
+
+  /* Terminal-style pre and code */
+  pre,
+  code {
+    font-family: inherit;
+    background-color: var(--terminal-hover);
+    padding: var(--terminal-padding);
+    border-radius: var(--terminal-border-radius);
+  }
+
+  pre {
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+}
+
+/* WebTUI Utilities Layer - Terminal utility classes */
+@layer webtui.utilities {
+
+  /* Layout utilities */
+  .terminal-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: var(--terminal-padding);
+  }
+
+  .terminal-grid {
+    display: grid;
+    gap: var(--terminal-margin);
+  }
+
+  .terminal-flex {
+    display: flex;
+    gap: var(--terminal-margin);
+  }
+
+  /* Flexbox alignment utilities */
+  .items-center {
+    align-items: center;
+  }
+
+  .justify-between {
+    justify-content: space-between;
+  }
+
+  .justify-center {
+    justify-content: center;
+  }
+
+  .flex-1 {
+    flex: 1;
+  }
+
+  /* Spacing utilities */
+  .space-y-1>*+* {
+    margin-top: 0.25rem;
+  }
+
+  .space-y-2>*+* {
+    margin-top: 0.5rem;
+  }
+
+  .space-y-4>*+* {
+    margin-top: 1rem;
+  }
+
+  .gap-2 {
+    gap: 0.5rem;
+  }
+
+  .gap-4 {
+    gap: 1rem;
+  }
+
+  /* Padding utilities */
+  .p-1 {
+    padding: 0.25rem;
+  }
+
+  .p-2 {
+    padding: 0.5rem;
+  }
+
+  .p-3 {
+    padding: 0.75rem;
+  }
+
+  .p-4 {
+    padding: 1rem;
+  }
+
+  /* Margin utilities */
+  .m-1 {
+    margin: 0.25rem;
+  }
+
+  .m-2 {
+    margin: 0.5rem;
+  }
+
+  .m-4 {
+    margin: 1rem;
+  }
+
+  .mt-1 {
+    margin-top: 0.25rem;
+  }
+
+  .mt-2 {
+    margin-top: 0.5rem;
+  }
+
+  .mt-4 {
+    margin-top: 1rem;
+  }
+
+  .mb-2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+
+  .ml-1 {
+    margin-left: 0.25rem;
+  }
+
+  /* Width and height utilities */
+  .w-full {
+    width: 100%;
+  }
+
+  .h-screen {
+    height: 100vh;
+  }
+
+  .min-h-screen {
+    min-height: 100vh;
+  }
+
+  /* Position utilities */
+  .fixed {
+    position: fixed;
+  }
+
+  .relative {
+    position: relative;
+  }
+
+  .absolute {
+    position: absolute;
+  }
+
+  .inset-0 {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  /* Z-index utilities */
+  .z-40 {
+    z-index: 40;
+  }
+
+  .z-50 {
+    z-index: 50;
+  }
+
+  /* Text utilities */
+  .text-left {
+    text-align: left;
+  }
+
+  .text-sm {
+    font-size: 0.875rem;
+  }
+
+  .text-xs {
+    font-size: 0.75rem;
+  }
+
+  .text-lg {
+    font-size: 1.125rem;
+  }
+
+  .text-xl {
+    font-size: 1.25rem;
+  }
+
+  .font-bold {
+    font-weight: bold;
+  }
+
+  .font-mono {
+    font-family: inherit;
+  }
+
+  /* Cursor utilities */
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  /* Overflow utilities */
+  .overflow-hidden {
+    overflow: hidden;
+  }
+
+  .overflow-visible {
+    overflow: visible;
+  }
+
+  /* Visual utilities */
+  .terminal-border {
+    border: var(--terminal-border-width) solid var(--terminal-border);
+  }
+
+  .terminal-border-b {
+    border-bottom: var(--terminal-border-width) solid var(--terminal-border);
+  }
+
+  .terminal-border-t {
+    border-top: var(--terminal-border-width) solid var(--terminal-border);
+  }
+
+  .terminal-border-l {
+    border-left: var(--terminal-border-width) solid var(--terminal-border);
+  }
+
+  .terminal-border-r {
+    border-right: var(--terminal-border-width) solid var(--terminal-border);
+  }
+
+  .bg-terminal-bg {
+    background-color: var(--terminal-bg);
+  }
+
+  .bg-terminal-hover {
+    background-color: var(--terminal-hover);
+  }
+
+  .text-terminal-fg {
+    color: var(--terminal-fg);
+  }
+
+  .bg-opacity-75 {
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+
+  .rounded-none {
+    border-radius: 0;
+  }
+
+  .terminal-highlight {
+    background-color: var(--terminal-selection);
+    color: var(--terminal-fg);
+  }
+
+  .terminal-accent {
+    color: var(--terminal-accent);
+  }
+
+  .terminal-error {
+    color: var(--terminal-error);
+  }
+
+  .terminal-warning {
+    color: var(--terminal-warning);
+  }
+
+  .terminal-info {
+    color: var(--terminal-info);
+  }
+
+  .terminal-success {
+    color: var(--terminal-success);
+  }
+
+  .terminal-dim {
+    color: var(--terminal-dim);
+  }
+
+  /* Animation utilities */
+  .terminal-cursor::after {
+    content: '█';
+    animation: terminal-blink var(--terminal-blink-speed) infinite;
+    color: var(--terminal-accent);
+    font-weight: bold;
+  }
+
+  .terminal-cursor-line::after {
+    content: '_';
+    animation: terminal-blink var(--terminal-blink-speed) infinite;
+    color: var(--terminal-accent);
+    font-weight: bold;
+  }
+
+  .terminal-cursor-block::after {
+    content: '▋';
+    animation: terminal-blink var(--terminal-blink-speed) infinite;
+    color: var(--terminal-accent);
+    font-weight: bold;
+  }
+
+  .terminal-fade-in {
+    animation: terminal-fade-in 0.3s ease-in-out;
+  }
+
+  .terminal-typewriter {
+    animation: terminal-typewriter 2s steps(40, end);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .terminal-glow {
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
+  }
+
+  .terminal-scanlines::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(transparent 50%,
+        rgba(0, 255, 0, 0.03) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .terminal-crt::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center,
+        transparent 0%,
+        transparent 70%,
+        rgba(0, 0, 0, 0.1) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Responsive utilities */
+  .terminal-hide-mobile {
+    display: block;
+  }
+
+  .terminal-show-mobile {
+    display: none;
+  }
+
+  .terminal-hide-tablet {
+    display: block;
+  }
+
+  .terminal-show-tablet {
+    display: none;
+  }
+
+  .terminal-hide-desktop {
+    display: block;
+  }
+
+  .terminal-show-desktop {
+    display: none;
+  }
+
+  /* Mobile responsive styles */
+  @media (max-width: 480px) {
+    .terminal-hide-mobile {
+      display: none;
+    }
+
+    .terminal-show-mobile {
+      display: block;
+    }
+
+    .terminal-container {
+      padding: calc(var(--terminal-padding) * 0.5);
+    }
+
+    /* Touch-friendly spacing on mobile */
+    .terminal-flex {
+      gap: calc(var(--terminal-margin) * 1.5);
+    }
+
+    /* Larger touch targets on mobile */
+    button,
+    input,
+    textarea,
+    select {
+      min-height: 44px;
+      padding: calc(var(--terminal-padding) * 1.2);
+    }
+
+    /* Better text sizing on mobile */
+    .text-xs {
+      font-size: 0.8rem;
+    }
+
+    .text-sm {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Tablet responsive styles */
+  @media (min-width: 481px) and (max-width: 768px) {
+    .terminal-hide-tablet {
+      display: none;
+    }
+
+    .terminal-show-tablet {
+      display: block;
+    }
+
+    .terminal-container {
+      padding: calc(var(--terminal-padding) * 0.75);
+    }
+
+    /* Moderate touch targets on tablet */
+    button,
+    input,
+    textarea,
+    select {
+      min-height: 40px;
+      padding: calc(var(--terminal-padding) * 1.1);
+    }
+  }
+
+  /* General mobile and tablet styles */
+  @media (max-width: 768px) {
+    .terminal-hide-mobile {
+      display: none;
+    }
+
+    .terminal-show-mobile {
+      display: block;
+    }
+
+    /* Responsive table behavior */
+    .terminal-responsive-table {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Responsive grid adjustments */
+    .terminal-grid {
+      grid-template-columns: 1fr;
+      gap: calc(var(--terminal-margin) * 0.75);
+    }
+
+    /* Responsive flex adjustments */
+    .terminal-flex-responsive {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  /* Desktop responsive styles */
+  @media (min-width: 1024px) {
+    .terminal-hide-desktop {
+      display: none;
+    }
+
+    .terminal-show-desktop {
+      display: block;
+    }
+
+    /* Larger containers on desktop */
+    .terminal-container {
+      padding: calc(var(--terminal-padding) * 1.25);
+    }
+
+    /* Better spacing on desktop */
+    .terminal-grid {
+      gap: calc(var(--terminal-margin) * 1.5);
+    }
+  }
+
+  /* Wide screen responsive styles */
+  @media (min-width: 1200px) {
+    .terminal-container {
+      padding: calc(var(--terminal-padding) * 1.5);
+    }
+
+    /* Even better spacing on wide screens */
+    .terminal-grid {
+      gap: calc(var(--terminal-margin) * 2);
+    }
+  }
+
+  /* Enhanced terminal aesthetic utilities */
+  .terminal-box-simple {
+    border: var(--terminal-border-width) solid var(--terminal-border);
+    background: var(--terminal-hover);
+    padding: var(--terminal-padding);
+  }
+
+  .terminal-box-double {
+    border: calc(var(--terminal-border-width) * 2) double var(--terminal-accent);
+    background: var(--terminal-hover);
+    padding: var(--terminal-padding);
+  }
+
+  .terminal-box-dashed {
+    border: var(--terminal-border-width) dashed var(--terminal-dim);
+    background: var(--terminal-hover);
+    padding: var(--terminal-padding);
+  }
+
+  .terminal-input-focus:focus {
+    border-color: var(--terminal-accent);
+    box-shadow: 0 0 0 2px rgba(255, 255, 0, 0.2);
+    outline: none;
+  }
+
+  .terminal-button-primary {
+    background: var(--terminal-accent);
+    color: var(--terminal-bg);
+    border: var(--terminal-border-width) solid var(--terminal-accent);
+    font-weight: bold;
+  }
+
+  .terminal-button-primary:hover:not(:disabled) {
+    background: var(--terminal-fg);
+    border-color: var(--terminal-fg);
+  }
+
+  .terminal-button-secondary {
+    background: transparent;
+    color: var(--terminal-fg);
+    border: var(--terminal-border-width) solid var(--terminal-fg);
+  }
+
+  .terminal-button-secondary:hover:not(:disabled) {
+    background: var(--terminal-fg);
+    color: var(--terminal-bg);
+  }
+
+  .terminal-button-danger {
+    background: transparent;
+    color: var(--terminal-error);
+    border: var(--terminal-border-width) solid var(--terminal-error);
+  }
+
+  .terminal-button-danger:hover:not(:disabled) {
+    background: var(--terminal-error);
+    color: var(--terminal-bg);
+  }
+
+  /* Specific button color overrides for compose form and all themed buttons */
+  button.terminal-success,
+  .terminal-success {
+    color: var(--terminal-success) !important;
+    border-color: var(--terminal-success) !important;
+    background-color: transparent !important;
+  }
+
+  button.terminal-success:hover:not(:disabled),
+  .terminal-success:hover:not(:disabled) {
+    background-color: var(--terminal-success) !important;
+    color: var(--terminal-bg) !important;
+    border-color: var(--terminal-success) !important;
+  }
+
+  button.terminal-info,
+  .terminal-info {
+    color: var(--terminal-info) !important;
+    border-color: var(--terminal-info) !important;
+    background-color: transparent !important;
+  }
+
+  button.terminal-info:hover:not(:disabled),
+  .terminal-info:hover:not(:disabled) {
+    background-color: var(--terminal-info) !important;
+    color: var(--terminal-bg) !important;
+    border-color: var(--terminal-info) !important;
+  }
+
+  button.terminal-error,
+  .terminal-error {
+    color: var(--terminal-error) !important;
+    border-color: var(--terminal-error) !important;
+    background-color: transparent !important;
+  }
+
+  button.terminal-error:hover:not(:disabled),
+  .terminal-error:hover:not(:disabled) {
+    background-color: var(--terminal-error) !important;
+    color: var(--terminal-bg) !important;
+    border-color: var(--terminal-error) !important;
+  }
+
+  /* Ensure button text visibility in all themes - override WebTUI styles */
+  button:not(:hover):not(:active) {
+    background-color: transparent !important;
+  }
+
+  /* Force button text to be visible regardless of WebTUI theme */
+  button.terminal-success *,
+  button.terminal-info *,
+  button.terminal-error * {
+    color: inherit !important;
+  }
+
+  /* Additional specificity for compose form buttons */
+  .compose-form button.terminal-success {
+    color: var(--terminal-success) !important;
+    border-color: var(--terminal-success) !important;
+  }
+
+  .compose-form button.terminal-info {
+    color: var(--terminal-info) !important;
+    border-color: var(--terminal-info) !important;
+  }
+
+  .compose-form button.terminal-error {
+    color: var(--terminal-error) !important;
+    border-color: var(--terminal-error) !important;
+  }
+
+  .terminal-status-bar {
+    background: var(--terminal-dim);
+    color: var(--terminal-bg);
+    padding: calc(var(--terminal-padding) * 0.5);
+    font-size: 0.875rem;
+    font-weight: bold;
+  }
+
+  .terminal-prompt::before {
+    content: '▶ ';
+    color: var(--terminal-accent);
+    font-weight: bold;
+  }
+
+  .terminal-command::before {
+    content: '$ ';
+    color: var(--terminal-dim);
+  }
+
+  .terminal-output::before {
+    content: '→ ';
+    color: var(--terminal-info);
+  }
+
+  /* Accessibility utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--terminal-bg);
+    color: var(--terminal-fg);
+    padding: 8px;
+    text-decoration: none;
+    border: var(--terminal-border-width) solid var(--terminal-accent);
+    z-index: 1000;
+  }
+
+  .skip-link:focus {
+    top: 6px;
+  }
+}
+
+/* Terminal animations */
+@keyframes terminal-blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes terminal-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes terminal-typewriter {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --terminal-fg: #ffffff;
+    --terminal-bg: #000000;
+    --terminal-accent: #ffff00;
+    --terminal-border: #ffffff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .terminal-cursor::after {
+    animation: none;
+  }
+}

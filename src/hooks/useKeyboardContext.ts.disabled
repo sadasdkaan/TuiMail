@@ -1,0 +1,70 @@
+'use client'
+
+import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react'
+
+export type KeyboardContext = 
+  | 'global' 
+  | 'email-list' 
+  | 'email-viewer' 
+  | 'compose-form' 
+  | 'sidebar'
+
+interface KeyboardContextState {
+  activeContext: KeyboardContext
+  setActiveContext: (context: KeyboardContext) => void
+  isContextActive: (context: KeyboardContext) => boolean
+}
+
+const KeyboardContextContext = createContext<KeyboardContextState | null>(null)
+
+export function KeyboardContextProvider({ children }: { children: ReactNode }) {
+  const [activeContext, setActiveContextState] = useState<KeyboardContext>('global')
+
+  const setActiveContext = useCallback((context: KeyboardContext) => {
+    setActiveContextState(context)
+  }, [])
+
+  const isContextActive = useCallback(
+    (context: KeyboardContext) => activeContext === context,
+    [activeContext]
+  )
+
+  return (
+    <KeyboardContextContext.Provider
+      value={{
+        activeContext,
+        setActiveContext,
+        isContextActive
+      }}
+    >
+      {children}
+    </KeyboardContextContext.Provider>
+  )
+}
+
+export function useKeyboardContext() {
+  const context = useContext(KeyboardContextContext)
+  if (!context) {
+    throw new Error('useKeyboardContext must be used within a KeyboardContextProvider')
+  }
+  return context
+}
+
+// Hook to register a component as a keyboard context
+export function useKeyboardFocus(context: KeyboardContext, enabled: boolean = true) {
+  const { setActiveContext, isContextActive } = useKeyboardContext()
+  
+  const activate = useCallback(() => {
+    if (enabled) {
+      setActiveContext(context)
+    }
+  }, [context, enabled, setActiveContext])
+
+  const isActive = isContextActive(context)
+
+  return {
+    activate,
+    isActive,
+    isFocused: isActive
+  }
+}
